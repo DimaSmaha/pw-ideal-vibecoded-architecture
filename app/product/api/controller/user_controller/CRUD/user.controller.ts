@@ -1,5 +1,5 @@
 import type { APIRequestContext } from '@playwright/test';
-import { joinUrl } from '../../../../../common/utils/helpers';
+import { joinUrl } from '../../../../../common/utils';
 
 type UserIdResponse = {
   id?: number;

@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { UserApiController } from '../../../app/src/product/api/controller/user_controller/CRUD/user.controller';
-import { getConfig } from '../../../app/src/common/config/ConfigProvider/config.provider';
+import { UserApiController } from '../../../app/product/api/controller/user_controller/CRUD/user.controller';
+import { getConfig } from '../../../app/common/config';
 
 test.describe('User API', () => {
   test('should get user id from endpoint', async ({ request }) => {

@@ -1,11 +1,2 @@
-export type ExecutionEnvironment = 'local' | 'qa' | 'staging' | 'prod';
-
-export interface EnvironmentConfig {
-  environment: ExecutionEnvironment;
-  baseUrl: string;
-  apiBaseUrl: string;
-  adminBaseUrl: string;
-  defaultUsername: string;
-  defaultPassword: string;
-  smokeUserId: number;
-}
+export type { ExecutionEnvironment } from '../environment.types';
+export type { RuntimeConfig as EnvironmentConfig } from '../environment.types';
