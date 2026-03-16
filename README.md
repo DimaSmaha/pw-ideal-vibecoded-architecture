@@ -1,20 +1,27 @@
 # pw-ideal-architecture
+
+**Generated with Warp**
+
 Playwright-based test automation architecture with a layered folder design for web, API, data, and cross-product testing.
 
 ## Purpose
+
 This repository demonstrates a scalable automation structure for:
+
 - UI testing (web and placeholder mobile layers)
 - API-level validation
 - shared test data/configuration
 - multi-product test organization
 
 ## Tech stack
+
 - Node.js + npm
 - TypeScript
 - Playwright (`@playwright/test`)
 - `dotenv` for environment configuration
 
 ## Quick start
+
 1. Install dependencies: `npm ci`
 2. Install Playwright browser binaries: `npx playwright install`
 3. Create your local env file from template:
@@ -23,16 +30,20 @@ This repository demonstrates a scalable automation structure for:
 4. Run tests: `npm test`
 
 ## Environment configuration
+
 The project loads environment variables in this order:
+
 1. `.env` (base defaults)
 2. `.env.<TEST_ENV>` (override layer)
 
 Details:
+
 - `TEST_ENV` defaults to `qa` when not provided.
 - If `TEST_ENV=qa`, values from `.env.qa` override matching keys from `.env`.
 - `BASE_URL` is used by Playwright as `use.baseURL`.
 
 Example keys in `.env.example`:
+
 - `TEST_ENV`
 - `BASE_URL`
 - `API_BASE_URL`
@@ -42,6 +53,7 @@ Example keys in `.env.example`:
 - `SMOKE_USER_ID`
 
 ## Available npm scripts
+
 - `npm test` — run all Playwright tests
 - `npm run test:headed` — run tests in headed mode
 - `npm run test:ui` — open Playwright UI mode
@@ -49,9 +61,106 @@ Example keys in `.env.example`:
 - `npm run report` — open HTML test report
 
 ## Repository structure
+
 Below is the intended structure with descriptions for each major area.
 
+### Tree view
+
+```text
+pw-ideal-architecture/
+├─ app/
+│  ├─ admin_website/
+│  │  └─ admin.routes.ts
+│  ├─ common/
+│  │  ├─ config/
+│  │  │  ├─ ConfigProvider/config.provider.ts
+│  │  │  ├─ dto/environment.dto.ts
+│  │  │  ├─ environment.types.ts
+│  │  │  ├─ runtime.config.ts
+│  │  │  └─ index.ts
+│  │  ├─ data/
+│  │  │  ├─ test-users.data.ts
+│  │  │  ├─ test-users.ts
+│  │  │  └─ index.ts
+│  │  ├─ mail/mail.template.ts
+│  │  ├─ mailservice/mail.template.ts
+│  │  ├─ testrail/
+│  │  │  ├─ test-cases.ts
+│  │  │  └─ testcases.sample.ts
+│  │  ├─ utils/
+│  │  │  ├─ helpers.ts
+│  │  │  ├─ time.util.ts
+│  │  │  ├─ url.util.ts
+│  │  │  └─ index.ts
+│  │  ├─ web/
+│  │  │  ├─ api.client.ts
+│  │  │  ├─ page.client.ts
+│  │  │  ├─ web-client.ts
+│  │  │  └─ index.ts
+│  │  └─ index.ts
+│  ├─ other_product_shared_be/
+│  │  └─ overview.ts
+│  └─ product/
+│     ├─ api/
+│     │  ├─ controller/user_controller/CRUD/
+│     │  │  ├─ readme.txt
+│     │  │  └─ user.controller.ts
+│     │  ├─ dto/user.dto.json
+│     │  └─ facade/businessObjects/StepObject/user-step.object.ts
+│     ├─ data/product-data.json
+│     ├─ db/
+│     │  ├─ common/connection/db.config.json
+│     │  ├─ entity/user.entity.json
+│     │  └─ facede/dao/user.dao.ts
+│     ├─ event/mq/kafka/etc/
+│     │  ├─ dto/user-event.dto.json
+│     │  └─ topic/user-events.topic.txt
+│     ├─ mobile/native/
+│     │  ├─ component/tabbar.component.json
+│     │  └─ screen/home.screen.json
+│     └─ web/
+│        ├─ component/header.component.json
+│        ├─ components/
+│        │  ├─ checkout-form.component.ts
+│        │  ├─ login-form.component.ts
+│        │  └─ shopping-header.component.ts
+│        ├─ facade/bo/steps/precondition.steps.ts
+│        └─ pages/
+│           ├─ base.page.ts
+│           ├─ page.factory.ts
+│           ├─ saucedemo-cart.page.ts
+│           ├─ saucedemo-checkout.page.ts
+│           ├─ saucedemo-inventory.page.ts
+│           └─ saucedemo-login.page.ts
+├─ test/
+│  ├─ admin_website/admin-web.spec.ts
+│  ├─ common/global-fixtures.json
+│  ├─ e2e/web_all_products/all-products.e2e.spec.ts
+│  ├─ other_product_shared_be/other-product.spec.ts
+│  ├─ product/
+│  │  ├─ api/user-api.spec.ts
+│  │  ├─ common/
+│  │  │  ├─ data_preparations/prepare-user-data.ps1
+│  │  │  └─ fixture/user.fixture.json
+│  │  ├─ e2e/multi_role_business_flows/business-flow.spec.ts
+│  │  └─ web/specific_pages/small_flows/specific_roles/role-flow.spec.ts
+│  └─ saucedemo/
+│     ├─ fixtures/saucedemo.fixture.ts
+│     └─ saucedemo.spec.ts
+├─ .env
+├─ .env.example
+├─ .env.qa
+├─ .gitignore
+├─ package.json
+├─ package-lock.json
+├─ playwright.config.ts
+├─ node_modules/ (generated)
+├─ playwright-report/ (generated)
+└─ test-results/ (generated)
+```
+
 ### Root level
+
 - `app/` — automation framework code (routes, page objects, API/controller layers, data, utilities)
 - `test/` — executable test specs, fixtures, and test-side data preparation scripts
 - `playwright.config.ts` — Playwright runtime config, project definitions, retries/workers, env loading
@@ -64,6 +173,7 @@ Below is the intended structure with descriptions for each major area.
 - `test-results/` — Playwright run artifacts (generated)
 
 ### `app/` (framework and reusable automation logic)
+
 - `app/admin_website/`
   - `admin.routes.ts` — admin-site route definitions or route constants
 
@@ -115,6 +225,7 @@ Below is the intended structure with descriptions for each major area.
     - `pages/*.ts` — page objects and page factory for saucedemo flows
 
 ### `test/` (specs and test-side resources)
+
 - `test/admin_website/`
   - `admin-web.spec.ts` — admin website test spec
 
@@ -139,6 +250,7 @@ Below is the intended structure with descriptions for each major area.
   - `saucedemo.spec.ts` — saucedemo UI spec
 
 ## Notes
+
 - Several areas are intentionally placeholders to illustrate architecture layers (`mobile`, some JSON contracts, CRUD readme placeholder).
 - Keep generated folders (`node_modules`, `playwright-report`, `test-results`) out of manual edits.
 - Add new test domains under both `app/<domain>` and `test/<domain>` to keep framework and spec layers aligned.
